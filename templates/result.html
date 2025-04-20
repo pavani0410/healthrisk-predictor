@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ disease }} Prediction Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bakbak+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            font-family: 'Bakbak One', cursive;
+            color: white;
+            position: relative;
+            width: 1440px;
+            height: 1024px;
+        }
+
+        h1 {
+            position: absolute;
+            width: 434px;
+            height: 69px;
+            left: 503px;
+            top: 0px;
+            font-size: 96px;
+            line-height: 134px;
+            text-align: center;
+        }
+
+        .rectangle {
+            position: absolute;
+            width: 772px;
+            background: #1F1F1F;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            font-size: 32px;
+            line-height: 1.6;
+        }
+
+        .rectangle.dl {
+            top: 187px;
+            height: 194px;
+            left: 334px;
+        }
+
+        .rectangle.ml {
+            top: 447px;
+            height: 208px;
+            left: 334px;
+        }
+
+        .help-box {
+            position: absolute;
+            bottom: 120px;
+            left: 334px;
+            width: 772px;
+            text-align: center;
+            color: #FF6961;
+            font-size: 24px;
+            background-color: #1F1F1F;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .back-link {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            color: #FF4D4D;
+            text-decoration: none;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>RESULT</h1>
+
+    <div class="rectangle dl">
+        🧠 Deep Learning Model: <strong>{{ 'AT RISK' if dl else 'NO RISK' }}</strong><br>
+        🔹 Accuracy: {{ (dl_acc * 100) | round(2) }}%
+    </div>
+
+    <div class="rectangle ml">
+        📊 Machine Learning Model: <strong>{{ 'AT RISK' if ml else 'NO RISK' }}</strong><br>
+        🔸 Accuracy: {{ (ml_acc * 100) | round(2) }}%
+    </div>
+
+    {% if help_text %}
+    <div class="help-box">
+        🩺 <strong>Recommendation:</strong><br>
+        {{ help_text }}
+    </div>
+    {% endif %}
+
+    <a href="/" class="back-link">← Back to Home</a>
+</body>
+</html>

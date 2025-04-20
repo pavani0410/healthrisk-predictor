@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lung Cancer Prediction</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            font-family: 'Bakbak One', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 1440px;
+            height: 1024px;
+            margin: auto;
+        }
+
+        .left-img {
+            position: absolute;
+            top: 100px;
+            left: -500px; /* Start off-screen */
+            width: 500px;
+            opacity: 0;
+            animation: slideIn 2s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            0% {
+                left: -500px;
+                opacity: 0;
+                filter: blur(10px);
+            }
+            100% {
+                left: 80px;
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+
+        .glow-effect {
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+            border-radius: 20px;
+        }
+
+        .title-left {
+            position: absolute;
+            left: 106px;
+            top: 838px;
+            font-size: 50px;
+        }
+
+        .form-title {
+            position: absolute;
+            top: 63px;
+            left: 809px;
+            font-size: 50px;
+        }
+
+        .form-box {
+            position: absolute;
+            top: 184px;
+            left: 623px;
+            width: 809px;
+            height: 655px;
+            background: rgba(133, 133, 133, 0.21);
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input, select {
+            padding: 12px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .predict-button {
+            position: absolute;
+            left: 882px;
+            top: 865px;
+            width: 291px;
+            height: 84px;
+            background: #000;
+            box-shadow: 0px 4px 13px rgba(255, 0, 0, 0.34);
+            border: none;
+            cursor: pointer;
+            font-size: 36px;
+            font-family: 'Bakbak One', sans-serif;
+            color: white;
+            transition: transform 0.2s;
+        }
+
+        .predict-button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='lungs.png') }}" alt="Lungs" class="left-img glow-effect">
+        <div class="title-left">LUNG CANCER</div>
+
+        <div class="form-title">Enter Your Details:</div>
+
+        <div class="form-box">
+            <form method="POST" action="/lung_predict" id="lungForm">
+                <input type="number" name="age" placeholder="Age" required>
+
+                <select name="gender" required>
+                    <option value="">Gender</option>
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+
+                <select name="smoking" required>
+                    <option value="">Do you smoke?</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <select name="coughing" required>
+                    <option value="">Persistent Cough?</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <select name="fatigue" required>
+                    <option value="">Fatigue?</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <select name="chest_pain" required>
+                    <option value="">Chest Pain?</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <select name="shortness_breath" required>
+                    <option value="">Shortness of Breath?</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </form>
+        </div>
+
+        <button type="submit" form="lungForm" class="predict-button">Predict!</button>
+    </div>
+</body>
+</html>
