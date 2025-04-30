@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ disease }} Prediction Result</title>
+    <title>{{ disease.upper() }} Prediction Result</title>
     <link href="https://fonts.googleapis.com/css2?family=Bakbak+One&display=swap" rel="stylesheet">
     <style>
         body {
@@ -11,90 +11,115 @@
             background-color: #000;
             font-family: 'Bakbak One', cursive;
             color: white;
-            position: relative;
-            width: 1440px;
-            height: 1024px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
         h1 {
-            position: absolute;
-            width: 434px;
-            height: 69px;
-            left: 503px;
-            top: 0px;
-            font-size: 96px;
-            line-height: 134px;
+            font-size: 72px;
+            margin-top: 40px;
+            margin-bottom: 20px;
             text-align: center;
+        }
+
+        .main-grid {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 40px;
+            width: 90%;
+            max-width: 1400px;
+            margin-top: 20px;
+        }
+
+        .left, .right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
 
         .rectangle {
-            position: absolute;
-            width: 772px;
             background: #1F1F1F;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 25px;
             text-align: center;
-            flex-direction: column;
-            font-size: 32px;
-            line-height: 1.6;
-        }
-
-        .rectangle.dl {
-            top: 187px;
-            height: 194px;
-            left: 334px;
-        }
-
-        .rectangle.ml {
-            top: 447px;
-            height: 208px;
-            left: 334px;
+            border-radius: 12px;
+            font-size: 26px;
+            line-height: 1.5;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
         .help-box {
-            position: absolute;
-            bottom: 120px;
-            left: 334px;
-            width: 772px;
-            text-align: center;
-            color: #FF6961;
-            font-size: 24px;
             background-color: #1F1F1F;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 40px;
+            font-size: 20px;
+            color: #FFD700;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            line-height: 1.6;
+            white-space: pre-wrap;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .back-link {
-            position: absolute;
-            bottom: 40px;
-            left: 40px;
             color: #FF4D4D;
             text-decoration: none;
-            font-size: 24px;
+            font-size: 20px;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 960px) {
+            .main-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .left, .right {
+                width: 100%;
+            }
+            .rectangle, .help-box {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>RESULT</h1>
+    <h1>{{ disease.upper() }} RESULT</h1>
 
-    <div class="rectangle dl">
-        🧠 Deep Learning Model: <strong>{{ 'AT RISK' if dl else 'NO RISK' }}</strong><br>
-        🔹 Accuracy: {{ (dl_acc * 100) | round(2) }}%
+    <div class="main-grid">
+        <div class="left">
+            <div class="rectangle">
+            Deep Learning Model: <strong>{{ 'AT RISK' if dl else 'NO RISK' }}</strong><br>
+                🔸 Accuracy: {{ (dl_acc * 100) | round(2) }}%
+            </div>
+            <div class="rectangle">
+            Machine Learning Model: <strong>{{ 'AT RISK' if ml else 'NO RISK' }}</strong><br>
+                🔸 Accuracy: {{ (ml_acc * 100) | round(2) }}%
+            </div>
+            <div class="rectangle">
+            Quantum Machine Learning Model: <strong>{{ 'AT RISK' if qml else 'NO RISK' }}</strong><br>
+                🔸 Accuracy: {{ (qml_acc * 100) | round(2) }}%
+            </div>
+            <div class="rectangle">
+            Quantum Neural Network Model: <strong>{{ 'AT RISK' if qnn else 'NO RISK' }}</strong><br>
+                🔸 Accuracy: {{ (qnn_acc * 100) | round(2) }}%
+            </div>
+        </div>
+
+        {% if help_text and help_text|length > 0 %}
+        <div class="right">
+            <div class="help-box">
+                 <strong>Personalized Recommendations:</strong><br><br>
+                {{ help_text | safe }}
+            </div>
+        </div>
+        {% endif %}
     </div>
 
-    <div class="rectangle ml">
-        📊 Machine Learning Model: <strong>{{ 'AT RISK' if ml else 'NO RISK' }}</strong><br>
-        🔸 Accuracy: {{ (ml_acc * 100) | round(2) }}%
-    </div>
-
-    {% if help_text %}
-    <div class="help-box">
-        🩺 <strong>Recommendation:</strong><br>
-        {{ help_text }}
-    </div>
-    {% endif %}
-
-    <a href="/" class="back-link">← Back to Home</a>
+    <a href="{{ url_for('index') }}" class="back-link">← Back to Home</a>
 </body>
 </html>

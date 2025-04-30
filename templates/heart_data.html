@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Heart Attack Risk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bakbak+One&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -13,33 +14,26 @@
         }
 
         .container {
-            position: relative;
-            width: 1440px;
-            height: 1024px;
-            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .left-img {
-            position: absolute;
-            top: 255px;
-            left: -500px;
-            width: 571px;
-            height: 571px;
+            width: 480px;
             animation: slideIn 2s ease-out forwards;
             opacity: 0;
-        }
-
-        @keyframes slideIn {
-            0% {
-                left: -500px;
-                opacity: 0;
-                filter: blur(10px);
-            }
-            100% {
-                left: 41px;
-                opacity: 1;
-                filter: blur(0);
-            }
         }
 
         .glow-effect {
@@ -48,75 +42,102 @@
         }
 
         .title-left {
-            position: absolute;
-            left: 59px;
-            top: 815px;
-            font-size: 50px;
-            width: 745px;
-            line-height: 70px;
+            font-size: 48px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateX(-300px);
+                opacity: 0;
+                filter: blur(10px);
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+
+        .form-section {
+            flex: 1.2;
+            background: rgba(133, 133, 133, 0.21);
+            padding: 40px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
         }
 
         .form-title {
-            position: absolute;
-            top: 81px;
-            left: 767px;
-            font-size: 50px;
-        }
-
-        .form-box {
-            position: absolute;
-            top: 184px;
-            left: 612px;
-            width: 809px;
-            height: 655px;
-            background: rgba(133, 133, 133, 0.21);
-            padding: 40px;
-            box-sizing: border-box;
+            font-size: 42px;
+            margin-bottom: 30px;
+            text-align: center;
         }
 
         form {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
         }
 
         input, select {
-            padding: 12px;
+            padding: 14px;
             font-size: 18px;
+            border-radius: 8px;
             border: none;
-            border-radius: 5px;
         }
 
         .predict-button {
-            position: absolute;
-            left: 871px;
-            top: 913px;
-            width: 291px;
-            height: 84px;
-            background: #000;
-            box-shadow: 0px 4px 13px rgba(255, 0, 0, 0.34);
-            border: none;
-            cursor: pointer;
-            font-size: 50px;
-            font-family: 'Bakbak One', sans-serif;
+            margin-top: 30px;
+            width: 100%;
+            padding: 18px;
+            font-size: 28px;
+            background-color: #000;
             color: white;
-            text-shadow: 0px 4px 4px rgba(255, 0, 0, 0.34);
+            border: none;
+            box-shadow: 0px 4px 13px rgba(255, 0, 0, 0.34);
+            font-family: 'Bakbak One', sans-serif;
+            cursor: pointer;
             transition: transform 0.2s;
+            border-radius: 10px;
         }
 
         .predict-button:hover {
             transform: scale(1.05);
         }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .left-img {
+                width: 80%;
+            }
+
+            .form-section {
+                width: 100%;
+                margin-top: 40px;
+            }
+
+            .predict-button {
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="{{ url_for('static', filename='heart.png') }}" alt="Heart" class="left-img glow-effect">
-        <div class="title-left">HEART ATTACK RISK</div>
+        <div class="left-panel">
+            <img src="{{ url_for('static', filename='heart.png') }}" alt="Heart" class="left-img glow-effect">
+            <div class="title-left">HEART ATTACK RISK</div>
+        </div>
 
-        <div class="form-title">Enter Your Details:</div>
-
-        <div class="form-box">
+        <div class="form-section">
+            <div class="form-title">Enter Your Details:</div>
             <form method="POST" action="/predict_heart" id="heartForm">
                 <input type="number" name="age" placeholder="Age" required>
 
@@ -127,7 +148,7 @@
                 </select>
 
                 <select name="cp" required>
-                    <option value="">Chest Pain Type (cp)</option>
+                    <option value="">Chest Pain Type</option>
                     <option value="0">Typical Angina</option>
                     <option value="1">Atypical Angina</option>
                     <option value="2">Non-anginal Pain</option>
@@ -135,7 +156,6 @@
                 </select>
 
                 <input type="number" name="thalach" placeholder="Max Heart Rate (thalach)" required>
-
                 <input type="number" step="any" name="oldpeak" placeholder="Oldpeak (ST Depression)" required>
 
                 <select name="exang" required>
@@ -143,10 +163,10 @@
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </select>
+
+                <button type="submit" class="predict-button">Predict!</button>
             </form>
         </div>
-
-        <button type="submit" form="heartForm" class="predict-button">Predict!</button>
     </div>
 </body>
 </html>
