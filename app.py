@@ -165,7 +165,7 @@ def predict_diabetes():
 
     help_text = generate_llm_recommendation("Diabetes", input_data.tolist(), at_risk_models) if at_risk_models else ""
 
-    return render_template('result.html'),
+    return render_template('result.html',
         disease="Diabetes",
         dl=dl_pred,
         ml=ml_pred,
@@ -261,8 +261,6 @@ def predict_lung():
         qnn_acc=qnn_acc["lung"],
         help_text=help_text
     )
-
-
 
 # ========= MAIN ==========
 if __name__ == '__main__':
