@@ -1,4 +1,4 @@
-name: Flask App Tests
+name: Python Unit Tests
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -24,6 +24,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Unit Tests on app.py
+      - name: Run unit tests
         run: |
-          python -m unittest discover -s tests -p "*.py"
+          python -m unittest test.py
